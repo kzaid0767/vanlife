@@ -1,9 +1,18 @@
 import { VansContext } from "../../App";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router";
 import { useContext, useState, useEffect } from "react";
 
 export default function VanDetails() {
   const { id } = useParams();
+  
+  /* brings in previous location's search params */
+  const location = useLocation()
+
+  //console.log(location.state.search
+  /* makes the qeury string to be returned with */
+
+  const search = location.state?.search || ''
+
   const [van, setVan] = useState({});
 
   //get van with matching id
@@ -16,6 +25,12 @@ export default function VanDetails() {
 
   return (
     <div className="van-detail-container">
+      <Link
+          to={`..?${search}`}
+          relative="path"
+          className="back-button"
+          >&larr; <span>{`Back to all ${search.slice(5)} vans`}</span></Link>
+
       <div className="van-detail">
         <img src={van.imageUrl} />
         <i className={`van-type ${van.type} selected`}>{van.type}</i>
